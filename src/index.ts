@@ -1,5 +1,6 @@
 import { randomInt } from "crypto";
 import express, { json } from "express"
+import kafka
 
 const app = express();
 const port = 8080; // default port to listen
@@ -9,16 +10,18 @@ app.get("/", (req, res) => { // Some types of controllers need this for heartbea
 })
 
 // define a route handler for the default home page
-app.get( "/info", ( req, res ) => {
+app.get( "/info", async (req, res) => {
     const lon = Number(req.query.longtitude)
     const lat = Number(req.query.lattitude)
 
-    const data = new LocationData(lon, lat, randomInt(2) === 0 ? false : true);
+    const id = await sendRequest(lon, lat)
+    const data = await awaitResponse(id)
+
     res.send(data);
 } );
 
 // start the Express server
-app.listen( port, () => {
+app.listen(port, () => {
     // tslint:disable-next-line:no-console
     console.log( `server started at http://localhost:${ port }` );
 } );
