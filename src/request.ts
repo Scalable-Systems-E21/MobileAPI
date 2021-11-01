@@ -1,4 +1,4 @@
-class LocationRequest {
+export class LocationRequest {
     id: string;
     longtitude: number;
     lattitude: number;
