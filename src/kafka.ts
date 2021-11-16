@@ -7,14 +7,13 @@ const kafka = new Kafka({
     clientId: process.env.KAFKA_CLIENT_ID,
     brokers: process.env.KAFKA_BROKERS.split(',')
 })
-console.log(process.env.KAFKA_BROKERS)
 
-export async function getResult (lon: number, lat: number) {
+export async function getResult (uuid: string) {
     // TODO: Round to some nearest?
     await new Promise(f => setTimeout(f, 1000))
 
     if (false) {
-        return new LocationData(lon, lat, true)
+        return new LocationData(10, 50, true)
     }else{
         return null;
     }
@@ -45,21 +44,7 @@ export async function sendRequest (lon: number, lat: number) {
         return id
     } catch (e) {
         await producer.disconnect()
-        console.log("Error while sending request to kafka:", e)
         throw e
     }
 
-}
-
-// So the idea is to send in a request, and then wait for it to be returned into kafka? 
-// If we have multiple of these mobile APIs running, how do we ensure the result is picked up by the one which is connected to a client? Persistant hashing? idk
-// Might make most sense for the API to simply poll the DFS occasionally. Would that however be properly scalable? Would it even matter? Does anything even matter?
-export async function awaitResult (uuid: string) {
-    // Create read stream
-
-    // Request file based on UUID
-
-    // If not found, wait and try again
-
-    // If found, return relavant data.
 }
