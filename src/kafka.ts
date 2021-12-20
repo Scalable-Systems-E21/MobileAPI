@@ -13,22 +13,34 @@ const hb = hbase({
 })
 
 export async function getResult (bounds: GeoBounds) {
+                    // tslint:disable-next-line:no-console
+    console.log('A')
     try {
         const tname = process.env.HBASE_TABLE
     const table = hb.table(tname)
+                    // tslint:disable-next-line:no-console
+                    console.log('B')
 
     table.exists((error: any, success: boolean) => {
         if (success) {
+                                // tslint:disable-next-line:no-console
+    console.log('C')
             table.scan({
                 maxVersions: 1, // Might need to change if we want to query back in time.
                 filter: filter(bounds, 0, Date.now())
             }, (err: any, rows: any) => {
+                                    // tslint:disable-next-line:no-console
+    console.log('D')
                 if (err !== undefined) {
+                                        // tslint:disable-next-line:no-console
+    console.log('E')
                     // tslint:disable-next-line:no-console
                     console.log(err)
                 }else{
+                                        // tslint:disable-next-line:no-console
+    console.log('F')
                     // tslint:disable-next-line:no-console
-                    console.info(rows)
+                    console.log(rows)
                     return rows
                 }
             })
