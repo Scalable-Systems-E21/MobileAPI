@@ -5,7 +5,7 @@ import { getResult, sendRequest } from './kafka'
 import { GeoBounds } from './GeoBounds'
 
 const app = express();
-const port = 8080; // default port to listen
+const port = 8090; // default port to listen
 const geoboundsMargin = 0.1; // About 11 kilometers.
 
 app.get("/", (req, res) => { // Some types of controllers need this for heartbeats.
