@@ -17,6 +17,6 @@
     "include": [
         "src/**/*",
         "dist/server.js",
-        "./typings-custom/**/*.ts",
+        "typings-custom/**/*.ts",
     ]
 }   
