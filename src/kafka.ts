@@ -13,7 +13,8 @@ const hb = hbase({
 })
 
 export async function getResult (bounds: GeoBounds) {
-    const tname = process.env.HBASE_TABLE
+    try {
+        const tname = process.env.HBASE_TABLE
     const table = hb.table(tname)
 
     table.exists((error: any, success: boolean) => {
@@ -34,6 +35,9 @@ export async function getResult (bounds: GeoBounds) {
         }
         return null
     })
+}catch (e) {
+    return e
+}
 }
 
 function filter (bounds: GeoBounds, timestampMin: number, timestampMax: number) {
@@ -81,7 +85,7 @@ function geoBoundsToGeoJson (bounds: GeoBounds) {
             "properties": {},
             "geometry": {
                 "type": "Polygon",
-                "coordinates": [[[bounds.maxLat, bounds.minLon], [bounds.maxLat, bounds.maxLon], [bounds.minLat, bounds.maxLon], [bounds.minLat, bounds.minLon], [bounds.maxLat, bounds.minLon]]]
+                "coordinates": [[[bounds.minLon, bounds.maxLat], [bounds.maxLon, bounds.maxLat], [bounds.maxLon, bounds.minLat], [bounds.minLon, bounds.minLat], [bounds.minLon, bounds.maxLat]]]
             }
         }]
     }
