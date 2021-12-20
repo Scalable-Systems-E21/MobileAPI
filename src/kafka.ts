@@ -31,9 +31,8 @@ export async function getResult (bounds: GeoBounds) {
                     return rows
                 }
             })
-        }else{
-            throw 'Table ' + tname + ' not defined in HBASE.'
         }
+        return '(╯°□°）╯︵ ┻━┻'
     })
 }
 
@@ -79,9 +78,10 @@ function geoBoundsToGeoJson (bounds: GeoBounds) {
         "features": [
         { 
             "type": "Feature",
+            "properties": {},
             "geometry": {
                 "type": "Polygon",
-                "coordinates": [[[bounds.maxLat, bounds.minLon], [bounds.maxLat, bounds.maxLon], [bounds.minLat, bounds.maxLon], [bounds.minLat, bounds.minLon] ]]
+                "coordinates": [[[bounds.maxLat, bounds.minLon], [bounds.maxLat, bounds.maxLon], [bounds.minLat, bounds.maxLon], [bounds.minLat, bounds.minLon], [bounds.maxLat, bounds.minLon]]]
             }
         }]
     }
