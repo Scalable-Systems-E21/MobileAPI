@@ -16,13 +16,13 @@ export async function getResult (bounds: GeoBounds) {
     const tname = process.env.HBASE_TABLE
     const table = hb.table(tname)
 
-    table.exists(function (error: any, success: boolean) {
+    table.exists((error: any, success: boolean) => {
         if (success) {
             table.scan({
                 maxVersions: 1, // Might need to change if we want to query back in time.
                 filter: filter(bounds, 0, Date.now())
-            }, function (err: any, rows: any) {
-                if (err != undefined) {
+            }, (err: any, rows: any) => {
+                if (err !== undefined) {
                     // tslint:disable-next-line:no-console
                     console.log(err)
                 }else{
