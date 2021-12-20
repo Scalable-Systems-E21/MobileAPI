@@ -25,7 +25,13 @@ app.post( "/request", async (req, res) => {
 
     try {
         await sendRequest(geobounds)
-        res.status(202).send() // Accepted
+
+        const data = await getResult(geobounds)
+        if (data === null) {
+            res.status(202).send() // Accepted
+        }else{
+            res.status(200).send(data) // OK
+        }
     }catch (e) {
         res.status(500).send(e) // Internal server error
     }

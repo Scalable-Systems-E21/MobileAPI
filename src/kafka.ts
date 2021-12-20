@@ -32,7 +32,7 @@ export async function getResult (bounds: GeoBounds) {
                 }
             })
         }
-        return '(╯°□°）╯︵ ┻━┻'
+        return null
     })
 }
 
