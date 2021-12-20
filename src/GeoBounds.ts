@@ -8,6 +8,6 @@ export class GeoBounds {
         this.minLat = minLat;
         this.maxLat = maxLat;
         this.minLon = minLon;
-        this.maxLat = maxLon;
+        this.maxLon = maxLon;
     }
 }
