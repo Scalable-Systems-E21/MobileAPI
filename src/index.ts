@@ -27,7 +27,7 @@ app.post( "/request", async (req, res) => {
         await sendRequest(geobounds)
         res.status(202).send() // Accepted
     }catch (e) {
-        res.status(500).send() // Internal server error
+        res.status(500).send(e) // Internal server error
     }
 } );
 
@@ -46,7 +46,7 @@ app.get("/poll", async (req, res) => {
         const data = await getResult(geobounds)
         res.status(200).send(data) // OK
     } catch (e) {
-        res.status(500).send() // Internal server error
+        res.status(500).send(e) // Internal server error
     }
 })
 
