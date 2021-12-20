@@ -74,12 +74,18 @@ function timestampMaxFilter (max: number) {
 }
 
 function geoBoundsToGeoJson (bounds: GeoBounds) {
-    const data = [{
-          Polygon: [
-              [ [bounds.maxLat, bounds.minLon], [bounds.maxLat, bounds.maxLon], [bounds.minLat, bounds.maxLon], [bounds.minLat, bounds.minLon] ]
-          ],
-        }];
-    return GeoJSON.parse(data)
+    const geojson = { 
+        "type": "FeatureCollection",
+        "features": [
+        { 
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[[bounds.maxLat, bounds.minLon], [bounds.maxLat, bounds.maxLon], [bounds.minLat, bounds.maxLon], [bounds.minLat, bounds.minLon] ]]
+            }
+        }]
+    }
+    return geojson
 }
 
 // Returns request UUID.
