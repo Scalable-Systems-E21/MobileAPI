@@ -36,6 +36,8 @@ export async function getResult (bounds: GeoBounds) {
               scanner.on('end', () =>
                 console.info(rows)
               )
+
+              return rows
         }else{
             throw 'Table ' + tname + ' not defined in HBASE.'
         }
@@ -53,20 +55,21 @@ function filter (bounds: GeoBounds, timestampMin: number, timestampMax: number) 
     ]}
 }
 
+// This could be generified a lot but shut up. Might actually do it if it doesn't quickly work out and I have to tweak a bunch.
 function latMinFilter (latMin: number) {
-    return {'op': 'GREATER', 'type': 'SingleColumnValueFilter', 'family': 'shape', 'qualifier': 'lat', 'comparator': latMin, 'filterIfColumnMissing': 'true' }
+    return {'op': 'GREATER', 'type': 'SingleColumnValueFilter', 'family': 'shape', 'qualifier': 'lat', 'comparator': { 'value': latMin, 'type': 'BinaryComparator' }, 'filterIfColumnMissing': 'true' }
 }
 
 function latMaxFilter (latMax: number) {
-    return {'op': 'LESS', 'type': 'SingleColumnValueFilter', 'family': 'shape', 'qualifier': 'lat', 'comparator': latMax, 'filterIfColumnMissing': 'true' }
+    return {'op': 'LESS', 'type': 'SingleColumnValueFilter', 'family': 'shape', 'qualifier': 'lat', 'comparator': { 'value': latMax, 'type': 'BinaryComparator' }, 'filterIfColumnMissing': 'true' }
 }
 
 function lonMinFilter (lonMin: number) {
-    return {'op': 'GREATER', 'type': 'SingleColumnValueFilter', 'family': 'shape', 'qualifier': 'long', 'comparator': lonMin, 'filterIfColumnMissing': 'true' }
+    return {'op': 'GREATER', 'type': 'SingleColumnValueFilter', 'family': 'shape', 'qualifier': 'long', 'comparator': { 'value': lonMin, 'type': 'BinaryComparator' }, 'filterIfColumnMissing': 'true' }
 }
 
 function lonMaxFilter (lonMax: number) {
-    return {'op': 'LESS', 'type': 'SingleColumnValueFilter', 'family': 'shape', 'qualifier': 'long', 'comparator': lonMax, 'filterIfColumnMissing': 'true' }
+    return {'op': 'LESS', 'type': 'SingleColumnValueFilter', 'family': 'shape', 'qualifier': 'long', 'comparator': { 'value': lonMax, 'type': 'BinaryComparator' }, 'filterIfColumnMissing': 'true' }
 }
  
 function timestampMinFilter (min: number) {
