@@ -1,7 +1,7 @@
 import { Kafka } from 'kafkajs'
 import { GeoBounds } from './GeoBounds'
-const GeoJSON = require('geojson')
-const hbase = require('hbase')
+import hbase from 'hbase'
+import GeoJSON from 'geojson'
 
 const kafka = new Kafka({
     clientId: process.env.KAFKA_CLIENT_ID,
@@ -18,26 +18,19 @@ export async function getResult (bounds: GeoBounds) {
 
     table.exists(function (error: any, success: boolean) {
         if (success) {
-            const scanner = table.scan({
+            table.scan({
                 maxVersions: 1, // Might need to change if we want to query back in time.
                 filter: filter(bounds, 0, Date.now())
+            }, function (err: any, rows: any) {
+                if (err != undefined) {
+                    // tslint:disable-next-line:no-console
+                    console.log(err)
+                }else{
+                    // tslint:disable-next-line:no-console
+                    console.info(rows)
+                    return rows
+                }
             })
-
-            const rows: any[] = []
-            var chunk
-
-            scanner.on('readable', () => { 
-                while(chunk = scanner.read())
-                  rows.push(chunk)
-              })
-              scanner.on('error', (err: any) => {
-                throw err
-              })
-              scanner.on('end', () =>
-                console.info(rows)
-              )
-
-              return rows
         }else{
             throw 'Table ' + tname + ' not defined in HBASE.'
         }
