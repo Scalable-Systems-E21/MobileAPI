@@ -31,7 +31,7 @@ export async function getResult(bounds: GeoBounds) {
                 }, (err: any, rows: any) => {
                     // tslint:disable-next-line:no-console
                     console.log('D')
-                    if (err !== undefined) {
+                    if (err !== null) {
                         // tslint:disable-next-line:no-console
                         console.log('E')
                         // tslint:disable-next-line:no-console
