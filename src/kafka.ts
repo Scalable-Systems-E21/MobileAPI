@@ -22,6 +22,8 @@ export async function getResult(bounds: GeoBounds) {
         console.log('B')
 
         table.exists((error: any, success: boolean) => {
+            // tslint:disable-next-line:no-console
+            console.log('BB')
             if (success) {
                 // tslint:disable-next-line:no-console
                 console.log('C')
