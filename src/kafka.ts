@@ -23,10 +23,10 @@ export async function getResult(bounds: GeoBounds) {
                 table.scan({
                     maxVersions: 1, // Might need to change if we want to query back in time.
                     filter: filter(bounds, 0, Date.now())
-                }, (error: any, rows: any) => {
-                    if (error !== null) {
+                }, (err: any, rows: any) => {
+                    if (err !== null) {
                         // tslint:disable-next-line:no-console
-                        console.log(error)
+                        console.log(err)
                     } else {
                         // tslint:disable-next-line:no-console
                         console.log(rows)
@@ -48,6 +48,7 @@ export async function getResult(bounds: GeoBounds) {
                     }
                 })
             } else {
+                // tslint:disable-next-line:no-console
                 console.log(error)
             }
             return null
