@@ -31,13 +31,20 @@ export async function getResult(bounds: GeoBounds) {
                         } else {
 
                             var shapes = []
+                            var toPrint = 100
                             for (let i: number; i < rows.length; i++) {
                                 let row = rows[i]
                                 if (row['column'] === 'shape.geojson') {
                                     shapes.push(JSON.parse(row['$']))
                                 }
+                                if (toPrint > 0) {
+                                    // tslint:disable-next-line:no-console
+                                    console.log(row)
+                                }
+                                toPrint--;
                             }
                             if (shapes.length > 0) {
+                                // tslint:disable-next-line:no-console
                                 console.log('Shapes! :D')
                                 resolve(featureCollection(shapes))
                             } else {
