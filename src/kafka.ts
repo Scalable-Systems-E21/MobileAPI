@@ -13,44 +13,67 @@ const hb = hbase({
 })
 
 export async function getResult(bounds: GeoBounds) {
-    // tslint:disable-next-line:no-console
-    console.log('A')
     try {
         const tname = process.env.HBASE_TABLE
         const table = hb.table(tname)
-        // tslint:disable-next-line:no-console
-        console.log('B')
+        var geojson = null
 
         table.exists((error: any, success: boolean) => {
-            // tslint:disable-next-line:no-console
-            console.log('BB')
             if (success) {
-                // tslint:disable-next-line:no-console
-                console.log('C')
                 table.scan({
                     maxVersions: 1, // Might need to change if we want to query back in time.
                     filter: filter(bounds, 0, Date.now())
-                }, (err: any, rows: any) => {
-                    // tslint:disable-next-line:no-console
-                    console.log('D')
-                    if (err !== null) {
+                }, (error: any, rows: any) => {
+                    if (error !== null) {
                         // tslint:disable-next-line:no-console
-                        console.log('E')
-                        // tslint:disable-next-line:no-console
-                        console.log(err)
+                        console.log(error)
                     } else {
                         // tslint:disable-next-line:no-console
-                        console.log('F')
-                        // tslint:disable-next-line:no-console
                         console.log(rows)
-                        return rows
+
+                        var shapes = []
+                        for (let i: number; i < rows.length; i++) {
+                            let row = rows[i]
+                            if (row['column'] === 'shape.geojson') {
+                                shapes.push(JSON.parse(row['$']))
+                            }
+                        }
+                        geojson = featureCollection(shapes)
+
+                        if (shapes.length > 0) {
+                            return geojson
+                        } else {
+                            return null
+                        }
                     }
                 })
+            } else {
+                console.log(error)
             }
             return null
         })
-    } catch (e) {
-        return e
+    } catch (error) {
+        // tslint:disable-next-line:no-console
+        console.log(error)
+    }
+}
+
+function polygon(coordinates) {
+    return {
+        "type": "Feature",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+                coordinates
+            ]
+        },
+    }
+}
+
+function featureCollection(features) {
+    return {
+        "type": "FeatureCollection",
+        "features": features
     }
 }
 
