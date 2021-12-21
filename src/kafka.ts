@@ -67,19 +67,19 @@ function filter(bounds: GeoBounds, timestampMin: number, timestampMax: number) {
 
 // This could be generified a lot but shut up. Might actually do it if it doesn't quickly work out and I have to tweak a bunch.
 function latMinFilter(latMin: number) {
-    return { 'op': 'GREATER', 'type': 'SingleColumnValueFilter', 'family': 'shape', 'qualifier': 'lat', 'comparator': { 'value': latMin, 'type': 'BinaryComparator' }, 'filterIfColumnMissing': 'true' }
+    return { 'op': 'GREATER', 'type': 'SingleColumnValueFilter', 'family': 'shape', 'qualifier': 'lat', 'comparator': { 'value': latMin.toString(), 'type': 'BinaryComparator' }, 'filterIfColumnMissing': 'true' }
 }
 
 function latMaxFilter(latMax: number) {
-    return { 'op': 'LESS', 'type': 'SingleColumnValueFilter', 'family': 'shape', 'qualifier': 'lat', 'comparator': { 'value': latMax, 'type': 'BinaryComparator' }, 'filterIfColumnMissing': 'true' }
+    return { 'op': 'LESS', 'type': 'SingleColumnValueFilter', 'family': 'shape', 'qualifier': 'lat', 'comparator': { 'value': latMax.toString(), 'type': 'BinaryComparator' }, 'filterIfColumnMissing': 'true' }
 }
 
 function lonMinFilter(lonMin: number) {
-    return { 'op': 'GREATER', 'type': 'SingleColumnValueFilter', 'family': 'shape', 'qualifier': 'long', 'comparator': { 'value': lonMin, 'type': 'BinaryComparator' }, 'filterIfColumnMissing': 'true' }
+    return { 'op': 'GREATER', 'type': 'SingleColumnValueFilter', 'family': 'shape', 'qualifier': 'long', 'comparator': { 'value': lonMin.toString(), 'type': 'BinaryComparator' }, 'filterIfColumnMissing': 'true' }
 }
 
 function lonMaxFilter(lonMax: number) {
-    return { 'op': 'LESS', 'type': 'SingleColumnValueFilter', 'family': 'shape', 'qualifier': 'long', 'comparator': { 'value': lonMax, 'type': 'BinaryComparator' }, 'filterIfColumnMissing': 'true' }
+    return { 'op': 'LESS', 'type': 'SingleColumnValueFilter', 'family': 'shape', 'qualifier': 'long', 'comparator': { 'value': lonMax.toString(), 'type': 'BinaryComparator' }, 'filterIfColumnMissing': 'true' }
 }
 
 function timestampMinFilter(min: number) {
