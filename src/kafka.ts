@@ -16,7 +16,7 @@ export async function getResult(bounds: GeoBounds) {
     const tname = process.env.HBASE_TABLE
     const table = hb.table(tname)
 
-    var result = await new Promise(resolve => {
+    return new Promise(resolve => {
 
         try {
             table.exists((error: any, success: boolean) => {
@@ -29,8 +29,6 @@ export async function getResult(bounds: GeoBounds) {
                             // tslint:disable-next-line:no-console
                             console.log(err)
                         } else {
-                            // tslint:disable-next-line:no-console
-                            console.log(rows)
 
                             var shapes = []
                             for (let i: number; i < rows.length; i++) {
@@ -40,8 +38,11 @@ export async function getResult(bounds: GeoBounds) {
                                 }
                             }
                             if (shapes.length > 0) {
+                                console.log('Shapes! :D')
                                 resolve(featureCollection(shapes))
                             } else {
+                                // tslint:disable-next-line:no-console
+                                console.log('No shapes :(')
                                 resolve(null)
                             }
                         }
@@ -57,8 +58,6 @@ export async function getResult(bounds: GeoBounds) {
             console.log(error)
         }
     })
-
-    return result
 }
 
 function polygon(coordinates) {
